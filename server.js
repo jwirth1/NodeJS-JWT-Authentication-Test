@@ -63,15 +63,26 @@ app.post("/api/login", (req, res) => {
 });
 
 app.get("/api/dashboard", jwtMW, (req, res) => {
-  console.log(req);
   res.json({
     success: true,
-    myContent: "Secret content only logged in people can see.",
+    myContent: "Secret content only logged in people can see dashboard.",
   });
 });
-app.post("/api/login", (req, res) => {
-  const { username, password } = req.body;
+
+app.get("/api/prices", jwtMW, (req, res) => {
+    res.json({
+      success: true,
+      myContent: "Price $3.99.",
+    });
+  });
+
+  app.get("/api/settings", jwtMW, (req, res) => {
+    res.json({
+      success: true,
+      myContent: "settings.",
+    });
 });
+
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
@@ -84,6 +95,9 @@ app.use(function (err, req, res, next) {
       officialError: err,
       err: "Username or password is incorrect 2",
     });
+  }
+  else {
+      next(err);
   }
 });
 
